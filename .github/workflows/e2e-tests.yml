@@ -45,7 +45,7 @@ jobs:
           username: ${{ secrets.EMAIL_USER }}
           password: ${{ secrets.EMAIL_PASS }}
           subject: "Automation Test Report - Playwright Cucumber"
-          to: "target_email@example.com"
+          to: "${{ secrets.EMAIL_USER }}"
           from: "Automation Bot <${{ secrets.EMAIL_USER }}>"
           body: |
             Hi team,
