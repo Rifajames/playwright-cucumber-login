@@ -1,0 +1,171 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "login-functionality;successful-login-with-valid-credentials",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "Successful login with valid credentials",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 4811205582
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "I am on the login page",
+            "match": {
+              "location": "steps/login.steps.js:4"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2908706124
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "I fill in username \"student\" and password \"Password123\"",
+            "match": {
+              "location": "steps/login.steps.js:8"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 669284625
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 6,
+            "name": "I click the login button",
+            "match": {
+              "location": "steps/login.steps.js:13"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1347109749
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 7,
+            "name": "I should see the success message \"Logged In Successfully\"",
+            "match": {
+              "location": "steps/login.steps.js:17"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 19817208
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 175860584
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "login-functionality;unsuccessful-login-with-invalid-credentials",
+        "keyword": "Scenario",
+        "line": 9,
+        "name": "Unsuccessful login with invalid credentials",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 678254082
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 10,
+            "name": "I am on the login page",
+            "match": {
+              "location": "steps/login.steps.js:4"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2818363833
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 11,
+            "name": "I fill in username \"wronguser\" and password \"wrongpass\"",
+            "match": {
+              "location": "steps/login.steps.js:8"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 683155084
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 12,
+            "name": "I click the login button",
+            "match": {
+              "location": "steps/login.steps.js:13"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 334906041
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "I should see the error message \"Your username is invalid!\"",
+            "match": {
+              "location": "steps/login.steps.js:22"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4889042
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 171841166
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "login-functionality",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Login functionality",
+    "tags": [],
+    "uri": "features/login.feature"
+  }
+]
