@@ -1,4 +1,16 @@
+# Node.js dependencies
 node_modules/
-.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Playwright specific
+.playwright/
 test-results/
-playwright-report/
+trace.zip
+
+# Reports
+reports/
+
+# Environment / secrets
+.env
