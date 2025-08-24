@@ -1,0 +1,57 @@
+name: Playwright Cucumber Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Cucumber Tests
+        run: npm run test:e2e
+
+      - name: Generate PDF Report
+        run: npm run report:pdf
+
+      - name: Upload reports as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: reports/
+
+      - name: Send report via email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USER }}
+          password: ${{ secrets.EMAIL_PASS }}
+          subject: "Automation Test Report - Playwright Cucumber"
+          to: "${{ secrets.EMAIL_USER }}"
+          from: "Automation Bot <${{ secrets.EMAIL_USER }}>"
+          body: |
+            Hi team,
+
+            Attached is the latest automation test report.
+            
+            Regards,
+            QA Automation Bot
+          attachments: reports/TestReport.pdf
