@@ -12,6 +12,52 @@ function generatePDFReport() {
   });
   doc.moveDown(2);
 
+  // === SUMMARY SECTION ===
+  let totalScenarios = results[0].elements.length;
+  let passedCount = 0;
+  let failedCount = 0;
+  let skippedCount = 0;
+
+  results[0].elements.forEach(scenario => {
+    const failed = scenario.steps.some(s => s.result.status === "failed");
+    const skipped = scenario.steps.some(s => s.result.status === "skipped");
+    if (failed) failedCount++;
+    else if (skipped) skippedCount++;
+    else passedCount++;
+  });
+
+  doc.fontSize(12).fillColor("black").text("Summary:", { underline: true });
+  doc.moveDown(0.5);
+
+  const summaryX = doc.page.margins.left;
+  const colWidth = 120;
+  const startY = doc.y;
+  const rowHeight = 25;
+
+  function drawSummaryCell(text, x, y, width, height, color = "black") {
+    doc.rect(x, y, width, height).stroke();
+    doc.fillColor(color).fontSize(11).text(text, x + 5, y + 8, {
+      width: width - 10,
+      align: "center"
+    });
+  }
+
+  // Header
+  drawSummaryCell("Total", summaryX, startY, colWidth, rowHeight);
+  drawSummaryCell("Passed", summaryX + colWidth, startY, colWidth, rowHeight);
+  drawSummaryCell("Failed", summaryX + colWidth * 2, startY, colWidth, rowHeight);
+  drawSummaryCell("Skipped", summaryX + colWidth * 3, startY, colWidth, rowHeight);
+
+  // Data
+  const dataY = startY + rowHeight;
+  drawSummaryCell(totalScenarios.toString(), summaryX, dataY, colWidth, rowHeight);
+  drawSummaryCell(passedCount.toString(), summaryX + colWidth, dataY, colWidth, rowHeight, "green");
+  drawSummaryCell(failedCount.toString(), summaryX + colWidth * 2, dataY, colWidth, rowHeight, "red");
+  drawSummaryCell(skippedCount.toString(), summaryX + colWidth * 3, dataY, colWidth, rowHeight, "orange");
+
+  doc.moveDown(4);
+
+  // === SCENARIOS DETAIL ===
   results[0].elements.forEach((scenario, i) => {
     // Judul Scenario
     const startX = doc.page.margins.left;
@@ -33,11 +79,8 @@ function generatePDFReport() {
     const colWidths = [280, 100, 100];
     const colX = [startX, startX + 280, startX + 380];
 
-    // Helper: gambar sel dengan border
     function drawCell(text, x, y, width, height, align = "left", color = "black") {
-      // Border
       doc.rect(x, y, width, height).stroke();
-      // Text
       doc.fillColor(color)
         .fontSize(10)
         .text(text, x + 5, y + 8, {
@@ -47,13 +90,13 @@ function generatePDFReport() {
     }
 
     // Header row
-    drawCell("Step", colX[0], tableTop, colWidths[0], rowHeight, "left", "black");
-    drawCell("Keyword", colX[1], tableTop, colWidths[1], rowHeight, "center", "black");
-    drawCell("Status", colX[2], tableTop, colWidths[2], rowHeight, "center", "black");
+    drawCell("Step", colX[0], tableTop, colWidths[0], rowHeight, "left");
+    drawCell("Keyword", colX[1], tableTop, colWidths[1], rowHeight, "center");
+    drawCell("Status", colX[2], tableTop, colWidths[2], rowHeight, "center");
 
     let currentY = tableTop + rowHeight;
 
-    // Isi tabel (steps)
+    // Isi tabel
     scenario.steps.forEach(step => {
       const status = step.result.status;
       let color = "orange";
@@ -73,7 +116,7 @@ function generatePDFReport() {
 
       currentY += rowHeight;
 
-      // Kalau tabel melebihi halaman → page baru
+      // Jika melebihi halaman → page baru
       if (currentY > doc.page.height - 100) {
         doc.addPage();
         currentY = doc.y;
